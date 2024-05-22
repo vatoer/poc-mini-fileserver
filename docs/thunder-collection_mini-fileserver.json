@@ -1,0 +1,51 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "mini-fileserver",
+    "collectionId": "7cccc7d7-d140-4435-b9d8-2e9505a24c14",
+    "dateExported": "2024-05-22T14:31:13.254Z",
+    "version": "1.2",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "57d8df3f-c690-4751-8de4-cf0f34470681",
+            "colId": "7cccc7d7-d140-4435-b9d8-2e9505a24c14",
+            "containerId": "",
+            "name": "http://localhost/fileserver/login.php",
+            "url": "http://localhost/fileserver/login.php",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-05-22T14:30:27.884Z",
+            "modified": "2024-05-22T14:30:27.884Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"eoffice\",\n  \"password\": \"YOURPASSWORDHERE\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "79aec37e-93ad-403f-ac69-29cad2501a86",
+            "colId": "7cccc7d7-d140-4435-b9d8-2e9505a24c14",
+            "containerId": "",
+            "name": "http://localhost/fileserver/index.php get File",
+            "url": "http://localhost/fileserver/index.php?file=00012 00001 BBM NOUMEA.pdf",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-05-22T14:30:47.199Z",
+            "modified": "2024-05-22T14:30:47.199Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "file",
+                    "value": "00012 00001 BBM NOUMEA.pdf",
+                    "isPath": false
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2VkaXNwby5hbWJwYXJpcy5sb2NhbCIsImF1ZCI6Imh0dHBzOi8vZmlsZS1lZGlzcG8uYW1icGFyaXMubG9jYWwiLCJpYXQiOjE3MTYzODc5NjIsIm5iZiI6MTcxNjM4Nzk2MiwiZXhwIjoxNzE2MzkxNTYyLCJkYXRhIjp7InVzZXJuYW1lIjoiZW9mZmljZSJ9fQ.Gj46aQOVXFOO2dOLwtqqUYmA99bCs_ceWwfkVm98zeY"
+            }
+        }
+    ],
+    "ref": "PrOEeld2pUiJfjEgRt5Tnkq8G2T05ypnDvGRPe14LC8NXPCwodBxuUGJGgnufsVEzIe74tTyQOtfylAIcGkZAw"
+}

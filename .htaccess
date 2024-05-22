@@ -1,0 +1,16 @@
+# Deny access to all
+Order deny,allow
+Deny from all
+
+# Allow access to index.php
+<Files index.php>
+    Allow from all
+</Files>
+
+# Allow access to login.php
+<Files login.php>
+    Allow from all
+</Files>
+
+# Set index.php as the default file to serve
+DirectoryIndex index.php

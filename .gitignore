@@ -1,0 +1,57 @@
+# Ignore the .env file where environment variables are stored
+.env
+
+# Ignore the Composer vendor directory
+/vendor/
+
+/composer.lock
+
+# Ignore the node_modules directory (if using Node.js in the project)
+node_modules/
+
+# Ignore log files
+*.log
+/logs
+/log/*
+
+# Ignore cache directories and files
+/cache/
+/tmp/
+/temp/
+
+# Ignore IDE specific files
+/.idea/
+/.vscode/
+/nbproject/
+
+# Ignore operating system files
+.DS_Store
+Thumbs.db
+
+# Ignore PHPUnit result logs
+/phpunit.result.cache
+
+# Ignore any compiled code or build artifacts
+/build/
+/dist/
+
+# Ignore personal and sensitive files
+*.pem
+*.key
+*.crt
+*.env.local
+*.env.test
+*.env.*.local
+
+# Ignore SFTP configuration files
+.sftp-config.json
+
+# Ignore deployment files
+/deploy/
+.env.*
+.env.*.local
+
+# Ignore miscellaneous
+*.swp
+*~
+/*.bak
