@@ -12,6 +12,8 @@ $dotenv->load();
 // Load configuration
 $config = require 'config.php';
 define('SECRET_KEY', $_ENV['JWT_SECRET_KEY']);
+define('FILE_MASUK_PATH', $_ENV['FILE_MASUK_PATH']);
+define('FILE_KELUAR_PATH', $_ENV['FILE_KELUAR_PATH']);
 define('ALGORITHM', $config['algorithm']);
 define('BASE_DIR', $config['base_dir']);
 define('JWT_ISSUER', $config['jwt_issuer']);
@@ -66,8 +68,21 @@ function listFiles() {
 }
 
 // Serve file for download
-function serveFile($filename) {
-    $filepath = BASE_DIR . DIRECTORY_SEPARATOR . $filename;
+function serveFile($filename,$inout) {
+    $filepath='NON_EXISTING_FILE_PATH';
+
+    if($inout!='masuk' && $inout!='keluar'){
+        header('HTTP/1.0 404 Not Found');
+        echo json_encode(['message' => 'Invalid in/out parameter']);
+        exit;
+    }
+
+    if($inout == 'masuk'){
+        $filepath = FILE_MASUK_PATH . DIRECTORY_SEPARATOR . $filename;
+    } else {
+        $filepath = FILE_KELUAR_PATH . DIRECTORY_SEPARATOR . $filename;
+    }
+
     if (file_exists($filepath)) {
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
@@ -91,10 +106,16 @@ header('Content-Type: application/json');
 //exit;
 $username = authenticate();
 
-if (isset($_GET['file'])) {
-    serveFile($_GET['file']);
-} else {
-    $files = listFiles();
-    echo json_encode($files);
+if (isset($_GET['file']) && isset($_GET['inout'])) {
+    serveFile($_GET['file'],$_GET['inout']);
+ } 
+else { 
+    http_response_code(405);
+    echo json_encode(["message" => "method is not allowed"]);
 }
+
+//{
+//     $files = listFiles();
+//     echo json_encode($files);
+// }
 ?>
