@@ -1,5 +1,7 @@
 <?php
 require 'vendor/autoload.php';
+// Include the common functions file
+require_once 'common.php';
 
 // List files
 function listFiles() {
@@ -59,4 +61,4 @@ else {
 //     $files = listFiles();
 //     echo json_encode($files);
 // }
-?>
+
