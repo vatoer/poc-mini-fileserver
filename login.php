@@ -1,34 +1,9 @@
 <?php
+// Include the common functions file
 require 'vendor/autoload.php';
-
 use \Firebase\JWT\JWT;
 use Dotenv\Dotenv;
-
-
-// Load the .env file
-$dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
-// Load configuration
-$config = require 'config.php';
-define('SECRET_KEY', $_ENV['JWT_SECRET_KEY']);
-define('ALGORITHM', $config['algorithm']);
-define('BASE_DIR', $config['base_dir']);
-define('JWT_ISSUER', $config['jwt_issuer']);
-define('JWT_AUDIENCE', $config['jwt_audience']);
-
-// Generate a JWT token (for initial setup, you can run this part separately)
-function generateToken($username) {
-    $payload = [
-        'iss' => JWT_ISSUER, // Issuer
-        'aud' => JWT_AUDIENCE, // Audience
-        'iat' => time(), // Issued at
-        'nbf' => time(), // Not before
-        'exp' => time() + 3600, // Expiry (1 hour)
-        'data' => [ 'username' => $username ]
-    ];
-    return JWT::encode($payload, SECRET_KEY, ALGORITHM);
-}
+require_once 'common.php';
 
 header('Content-Type: application/json');
 
