@@ -15,7 +15,7 @@ function handleUpload($file ,$inout) {
 
     if($inout!='masuk' && $inout!='keluar'){
         header('HTTP/1.0 404 Not Found');
-        echo json_encode(['message' => 'Invalid in/out parameter']);
+        logRequestInfo('Invalid in/out parameter');
         exit;
     }
 
@@ -29,9 +29,11 @@ function handleUpload($file ,$inout) {
 
     if (move_uploaded_file($file['tmp_name'], $filePath)) {
         echo json_encode(["message" => "File uploaded successfully"]);
+        logRequestInfo("File uploaded: " . $filename);
     } else {
         http_response_code(500);
         echo json_encode(["error" => "Failed to upload file"]);
+        logRequestInfo("Failed to upload file: " . $filename);
     }
 }
 
@@ -41,4 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file']) && isset($_P
 } else {
     http_response_code(405);
     echo json_encode(["message" => "Only POST method is allowed"]);
+    logRequestInfo('Only POST method is allowed');
+    exit;
 }
