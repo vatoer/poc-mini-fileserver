@@ -19,6 +19,7 @@ function serveFile($filename,$inout) {
     if($inout!='masuk' && $inout!='keluar'){
         header('HTTP/1.0 404 Not Found');
         echo json_encode(['message' => 'Invalid in/out parameter']);
+        logRequestInfo('serveFile: Invalid in/out parameter' . $filename);
         exit;
     }
 
@@ -41,6 +42,7 @@ function serveFile($filename,$inout) {
     } else {
         header('HTTP/1.0 404 Not Found');
         echo json_encode(['message' => 'File not found']);
+        logRequestInfo('message File not found');
         exit;
     }
 }
@@ -57,6 +59,8 @@ if (isset($_GET['file']) && isset($_GET['inout'])) {
 else { 
     http_response_code(405);
     echo json_encode(["message" => "method is not allowed"]);
+    logRequestInfo("method is not allowed");
+    exit;
 }
 
 //{
