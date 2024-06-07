@@ -21,13 +21,14 @@ define('JWT_AUDIENCE', $config['jwt_audience']);
 define('LOG_FILE_PATH', $_ENV['LOG_FILE_PATH']);
 
 // Generate a JWT token (for initial setup, you can run this part separately)
+// for machine to machine extend exp menjadi 1 tahun
 function generateToken($username) {
     $payload = [
         'iss' => JWT_ISSUER, // Issuer
         'aud' => JWT_AUDIENCE, // Audience
         'iat' => time(), // Issued at
         'nbf' => time(), // Not before
-        'exp' => time() + 3600, // Expiry (1 hour)
+        'exp' => time() + 31536000 , //setahun // 3600, // Expiry (1 hour)
         'data' => [ 'username' => $username ]
     ];
     return JWT::encode($payload, SECRET_KEY, ALGORITHM);
