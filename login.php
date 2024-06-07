@@ -30,13 +30,14 @@ $hashedPassword = $_ENV['USER_SECRET_KEY'];
 if ($data->username === $valid_username && password_verify($data->password, $hashedPassword)) {
 
     $jwt =  generateToken($data->username);
-
+    logRequestInfo("Successful login.");
     http_response_code(200);
     echo json_encode([
         'message' => 'Successful login.',
         'jwt' => $jwt
     ]);
 } else {
+    logRequestInfo("Unauthorized access.");
     http_response_code(401);
     echo json_encode(["message" => "Unauthorized access"]);
 }
