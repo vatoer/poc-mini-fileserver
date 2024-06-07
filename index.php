@@ -38,6 +38,7 @@ function serveFile($filename,$inout) {
         header('Pragma: public');
         header('Content-Length: ' . filesize($filepath));
         readfile($filepath);
+        logRequestInfo('serveFile: complete');
         exit;
     } else {
         header('HTTP/1.0 404 Not Found');
