@@ -12,6 +12,8 @@ function listFiles() {
 
 // Serve file for download
 function serveFile($filename,$inout) {
+    logRequestInfo('serveFile: ' . $filename);
+
     $filepath='NON_EXISTING_FILE_PATH';
 
     if($inout!='masuk' && $inout!='keluar'){

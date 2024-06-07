@@ -48,7 +48,8 @@ function logRequestInfo($message) {
     }
 
     // Build log message
-    $logMessage = "[$timestamp] - $clientIp - $message - Headers: " . json_encode($headers) . PHP_EOL;
+    // $logMessage = "[$timestamp] - $clientIp - $message - Headers: " . json_encode($headers) . PHP_EOL;
+    $logMessage = "[$timestamp] - $clientIp - $message " . PHP_EOL;
 
     // Write log message to file
     error_log($logMessage, 3, LOG_FILE_PATH);
