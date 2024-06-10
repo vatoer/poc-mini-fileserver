@@ -4,10 +4,23 @@ use \Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Dotenv\Dotenv;
 
-
 // Load the .env file
-$dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+try {
+    $dotenv = Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
+} catch (Exception $e) {
+    error_log("Failed to load .env file: " . $e->getMessage());
+    throw new Exception("Could not load environment variables");
+}
+
+// Debugging: Log if environment variables are loaded
+foreach (['JWT_SECRET_KEY', 'FILE_MASUK_PATH', 'FILE_KELUAR_PATH', 'LOG_FILE_PATH'] as $key) {
+    if (!isset($_ENV[$key])) {
+        error_log("$key is not set in the environment.");
+    } else {
+        error_log("$key loaded successfully.");
+    }
+}
 
 // Load configuration
 $config = require 'config.php';
