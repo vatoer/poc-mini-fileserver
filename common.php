@@ -1,29 +1,46 @@
 <?php
 require 'vendor/autoload.php';
+
 use \Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Dotenv\Dotenv;
 
-// Load the .env file
-try {
-    $dotenv = Dotenv::createImmutable(__DIR__);
-    $dotenv->load();
-} catch (Exception $e) {
-    error_log("Failed to load .env file: " . $e->getMessage());
-    throw new Exception("Could not load environment variables");
-}
+function loadEnvironmentVariables($retries = 3)
+{
+    while ($retries > 0) {
+        try {
+            $dotenv = Dotenv::createImmutable(__DIR__);
+            $dotenv->load();
 
-// Debugging: Log if environment variables are loaded
-foreach (['JWT_SECRET_KEY', 'FILE_MASUK_PATH', 'FILE_KELUAR_PATH', 'LOG_FILE_PATH'] as $key) {
-    if (!isset($_ENV[$key])) {
-        error_log("$key is not set in the environment.");
-    } else {
-        error_log("$key loaded successfully.");
+            // Validate critical environment variables
+            $requiredKeys = ['JWT_SECRET_KEY', 'FILE_MASUK_PATH', 'FILE_KELUAR_PATH', 'LOG_FILE_PATH'];
+            foreach ($requiredKeys as $key) {
+                if (!isset($_ENV[$key])) {
+                    throw new Exception("$key is not set in the environment.");
+                }
+            }
+
+            // Log successful loading
+            error_log("Environment variables loaded successfully.");
+            return true;
+        } catch (Exception $e) {
+            error_log("Failed to load .env file: " . $e->getMessage());
+            $retries--;
+            if ($retries <= 0) {
+                throw new Exception("Could not load environment variables after multiple attempts.");
+            }
+        }
+        // Add a small delay before retrying
+        sleep(1);
     }
 }
 
+// Load the .env file
+loadEnvironmentVariables();
+
 // Load configuration
 $config = require 'config.php';
+
 define('SECRET_KEY', $_ENV['JWT_SECRET_KEY']);
 define('FILE_MASUK_PATH', $_ENV['FILE_MASUK_PATH']);
 define('FILE_KELUAR_PATH', $_ENV['FILE_KELUAR_PATH']);
@@ -35,20 +52,22 @@ define('LOG_FILE_PATH', $_ENV['LOG_FILE_PATH']);
 
 // Generate a JWT token (for initial setup, you can run this part separately)
 // for machine to machine extend exp menjadi 1 tahun
-function generateToken($username) {
+function generateToken($username)
+{
     $payload = [
         'iss' => JWT_ISSUER, // Issuer
         'aud' => JWT_AUDIENCE, // Audience
         'iat' => time(), // Issued at
         'nbf' => time(), // Not before
-        'exp' => time() + 31536000 , //setahun // 3600, // Expiry (1 hour)
-        'data' => [ 'username' => $username ]
+        'exp' => time() + 31536000, //setahun // 3600, // Expiry (1 hour)
+        'data' => ['username' => $username]
     ];
     return JWT::encode($payload, SECRET_KEY, ALGORITHM);
 }
 
 // Function to log request information
-function logRequestInfo($message) {
+function logRequestInfo($message)
+{
     // Get current timestamp
     $timestamp = date('Y-m-d H:i:s');
 
@@ -69,9 +88,9 @@ function logRequestInfo($message) {
     error_log($logMessage, 3, LOG_FILE_PATH);
 }
 
-
 // Authentication
-function authenticate() {
+function authenticate()
+{
     $headers = apache_request_headers();
     if (!isset($headers['Authorization'])) {
         header('HTTP/1.0 401 Unauthorized');
@@ -90,7 +109,7 @@ function authenticate() {
         exit;
     }
 
-    try {      
+    try {
         $decoded = JWT::decode($jwt, new Key(SECRET_KEY, ALGORITHM));
         logRequestInfo('User authenticated: ' . $decoded->data->username);
         return $decoded->data->username;
@@ -101,4 +120,3 @@ function authenticate() {
         exit;
     }
 }
-
