@@ -51,6 +51,8 @@ Thumbs.db
 .env.*
 .env.*.local
 
+!.env.dist
+
 # Ignore miscellaneous
 *.swp
 *~
