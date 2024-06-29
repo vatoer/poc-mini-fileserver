@@ -25,10 +25,8 @@ if (!isset($data->username) || !isset($data->password)) {
 $valid_username = 'eoffice';
 $valid_password = 'password';
 
-$hashedPassword = $_ENV['USER_SECRET_KEY'];
-
-if ($data->username === $valid_username && password_verify($data->password, $hashedPassword)) {
-
+// Check if the username and password are correct
+if ($data->username === $valid_username && password_verify($data->password, USER_SECRET_KEY)) {
     $jwt =  generateToken($data->username);
     logRequestInfo("Successful login.");
     http_response_code(200);

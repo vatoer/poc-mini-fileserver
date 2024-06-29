@@ -13,7 +13,7 @@ function loadEnvironmentVariables($retries = 3)
             $dotenv->load();
 
             // Validate critical environment variables
-            $requiredKeys = ['JWT_SECRET_KEY', 'FILE_MASUK_PATH', 'FILE_KELUAR_PATH', 'LOG_FILE_PATH'];
+            $requiredKeys = ['JWT_SECRET_KEY', 'FILE_MASUK_PATH', 'FILE_KELUAR_PATH', 'LOG_FILE_PATH','PLAIN_PASSWORD','USER_SECRET_KEY','BASE_DIR','JWT_ISSUER','JWT_AUDIENCE'];
             foreach ($requiredKeys as $key) {
                 if (!isset($_ENV[$key])) {
                     throw new Exception("$key is not set in the environment.");
@@ -41,13 +41,15 @@ loadEnvironmentVariables();
 // Load configuration
 $config = require 'config.php';
 
+define('ALGORITHM', $config['algorithm']);
 define('SECRET_KEY', $_ENV['JWT_SECRET_KEY']);
+define('USER_SECRET_KEY', $_ENV['USER_SECRET_KEY']);
 define('FILE_MASUK_PATH', $_ENV['FILE_MASUK_PATH']);
 define('FILE_KELUAR_PATH', $_ENV['FILE_KELUAR_PATH']);
-define('ALGORITHM', $config['algorithm']);
-define('BASE_DIR', $config['base_dir']);
-define('JWT_ISSUER', $config['jwt_issuer']);
-define('JWT_AUDIENCE', $config['jwt_audience']);
+define('PLAIN_PASSWORD', $_ENV['PLAIN_PASSWORD']);
+define('BASE_DIR', $_ENV['BASE_DIR']);
+define('JWT_ISSUER', $_ENV['JWT_ISSUER']);
+define('JWT_AUDIENCE', $_ENV['JWT_AUDIENCE']);
 define('LOG_FILE_PATH', $_ENV['LOG_FILE_PATH']);
 
 // Generate a JWT token (for initial setup, you can run this part separately)
